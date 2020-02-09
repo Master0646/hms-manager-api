@@ -1,0 +1,15 @@
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/hms
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database: mysql
+    show-sql: true
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true
+server:
+  port: 8081

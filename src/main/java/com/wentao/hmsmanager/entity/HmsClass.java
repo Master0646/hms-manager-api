@@ -1,0 +1,78 @@
+package com.wentao.hmsmanager.entity;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Objects;
+import java.util.Set;
+
+@Entity
+@Table(name = "hms_class")
+public class HmsClass implements Serializable {
+
+    @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    @Column
+    private String name;
+
+    @JsonBackReference("students")
+    @OneToMany(targetEntity = HmsUser.class)
+    @JoinTable(name = "hms_user_class", joinColumns = {@JoinColumn(name = "class_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")})
+    private Set<HmsUser> students;
+
+    @JsonBackReference("courses")
+    @OneToMany(targetEntity = HmsCourse.class)
+    @JoinTable(name = "hms_class_course", joinColumns = {@JoinColumn(name = "class_id")},
+            inverseJoinColumns = {@JoinColumn(name = "course_id")})
+    private Set<HmsCourse> courses;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Set<HmsUser> getStudents() {
+        return students;
+    }
+
+    public Set<HmsCourse> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(Set<HmsCourse> courses) {
+        this.courses = courses;
+    }
+
+    public void setStudents(Set<HmsUser> students) {
+        this.students = students;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HmsClass hmsClass = (HmsClass) o;
+        return Objects.equals(id, hmsClass.id) &&
+                Objects.equals(name, hmsClass.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
+}
