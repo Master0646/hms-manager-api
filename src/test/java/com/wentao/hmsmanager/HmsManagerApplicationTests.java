@@ -8,6 +8,7 @@ class HmsManagerApplicationTests {
 
     @Test
     void contextLoads() {
+
     }
 
 }

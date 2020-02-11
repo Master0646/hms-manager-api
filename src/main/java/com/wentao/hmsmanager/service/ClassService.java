@@ -15,23 +15,13 @@ public class ClassService {
 
     @Autowired
     private ClassDao classDao;
-    @Autowired
-    private UserDao userDao;
 
-    /**
-     * 查找对应用户所在的班级
-     * @param id 用户id
-     * @return 用户所在班级列表
-     */
-    public List<HmsClass> findAllByUserId(Integer id) {
-        HmsUser user = new HmsUser();
-        user.setId(id);
-        Example<HmsUser> example = Example.of(user);
-        Optional<HmsUser> one = userDao.findOne(example);
-        if(one.isPresent()) {
-            return one.get().getHmsClass();
-        }
-        return Collections.emptyList();
+    public HmsClass findById(Integer classId) {
+        HmsClass hmsClass = new HmsClass();
+        hmsClass.setId(classId);
+        Example<HmsClass> example = Example.of(hmsClass);
+        Optional<HmsClass> optionalHmsClass = classDao.findOne(example);
+        return optionalHmsClass.orElse(null);
     }
 
 }

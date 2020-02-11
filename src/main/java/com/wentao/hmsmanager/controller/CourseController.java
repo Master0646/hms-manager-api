@@ -1,6 +1,8 @@
 package com.wentao.hmsmanager.controller;
 
+import com.wentao.hmsmanager.entity.HmsClass;
 import com.wentao.hmsmanager.entity.HmsCourse;
+import com.wentao.hmsmanager.service.ClassService;
 import com.wentao.hmsmanager.service.CourseService;
 import com.wentao.hmsmanager.utils.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +19,14 @@ public class CourseController {
 
     @Autowired
     private CourseService courseService;
+    @Autowired
+    private ClassService classService;
 
     @GetMapping("/api/v1/course/{id}")
-    public ApiResponse infos(@RequestParam @PathVariable Integer id) {
-        Set<HmsCourse> infos = courseService.findAllByClassId(id);
-        return ApiResponse.ok(infos);
+    public ApiResponse info(@RequestParam @PathVariable Integer id) {
+        HmsClass hmsClass = classService.findById(id);
+        Set<HmsCourse> info = hmsClass.getCourses();
+        return ApiResponse.ok(info);
     }
 
 }

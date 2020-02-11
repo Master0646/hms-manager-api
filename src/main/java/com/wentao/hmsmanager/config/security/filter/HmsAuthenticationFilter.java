@@ -5,15 +5,17 @@ import com.wentao.hmsmanager.config.security.HmsAuthenticationManager;
 import com.wentao.hmsmanager.config.security.HmsUserDetails;
 import com.wentao.hmsmanager.config.security.SecurityConstants;
 import com.wentao.hmsmanager.entity.HmsUser;
+import com.wentao.hmsmanager.entity.vo.HmsUserVo;
+import com.wentao.hmsmanager.utils.ApiResponse;
 import com.wentao.hmsmanager.utils.JwtUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
+import com.wentao.hmsmanager.utils.ResponseUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.boot.configurationprocessor.json.JSONStringer;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.FilterChain;
@@ -65,6 +67,11 @@ public class HmsAuthenticationFilter extends AbstractAuthenticationProcessingFil
         String token = JwtUtils.createToken(userDetails.getUsername(), roles.get(0), false);
         // Http Response Header 中返回 Token
         response.setHeader(SecurityConstants.TOKEN_HEADER, token);
+
+        HmsUser currentUser = userDetails.getCurrentUser();
+        HmsUserVo hmsUserVo = new HmsUserVo();
+        BeanUtils.copyProperties(currentUser, hmsUserVo);
+        ResponseUtils.response(response, ApiResponse.ok(hmsUserVo));
     }
 
     @Override

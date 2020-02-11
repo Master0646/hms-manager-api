@@ -1,7 +1,9 @@
 package com.wentao.hmsmanager.controller;
 
 import com.wentao.hmsmanager.entity.HmsClass;
+import com.wentao.hmsmanager.entity.HmsUser;
 import com.wentao.hmsmanager.service.ClassService;
+import com.wentao.hmsmanager.service.UserService;
 import com.wentao.hmsmanager.utils.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,15 +17,16 @@ import java.util.List;
 public class ClassController {
 
     @Autowired
-    ClassService classService;
+    private UserService userService;
 
     /**
      * 获取所在班级的信息
      */
     @GetMapping("/api/v1/class/{id}")
-    public ApiResponse infos(@PathVariable Integer id) {
-        List<HmsClass> classInfos = classService.findAllByUserId(id);
-        return ApiResponse.ok(classInfos);
+    public ApiResponse info(@PathVariable Integer id) {
+        HmsUser user = userService.findById(id);
+        List<HmsClass> classInfo = user.getHmsClass();
+        return ApiResponse.ok(classInfo);
     }
 
 }

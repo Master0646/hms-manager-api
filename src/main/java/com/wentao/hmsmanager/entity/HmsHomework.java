@@ -1,8 +1,11 @@
 package com.wentao.hmsmanager.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "hms_homework")
@@ -18,11 +21,18 @@ public class HmsHomework {
     private String description;
     @Column
     private String content;
-    @Column
-    private Timestamp created;
-    @Column
-    private Timestamp ended;
 
+    @JsonBackReference("homeworkCourse")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinTable(name = "hms_course_homework", joinColumns = {@JoinColumn(name = "homework_id")},
+            inverseJoinColumns = {@JoinColumn(name = "course_id")})
+    private HmsCourse courses;
+
+    @JsonBackReference("homeworkCourse")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinTable(name = "hms_class_homework", joinColumns = {@JoinColumn(name = "homework_id")},
+            inverseJoinColumns = {@JoinColumn(name = "class_id")})
+    private HmsClass classes;
 
     public Integer getId() {
         return id;
@@ -56,20 +66,20 @@ public class HmsHomework {
         this.content = content;
     }
 
-    public Timestamp getCreated() {
-        return created;
+    public HmsCourse getCourses() {
+        return courses;
     }
 
-    public void setCreated(Timestamp created) {
-        this.created = created;
+    public void setCourses(HmsCourse courses) {
+        this.courses = courses;
     }
 
-    public Timestamp getEnded() {
-        return ended;
+    public HmsClass getClasses() {
+        return classes;
     }
 
-    public void setEnded(Timestamp ended) {
-        this.ended = ended;
+    public void setClasses(HmsClass classes) {
+        this.classes = classes;
     }
 
     @Override
@@ -80,13 +90,11 @@ public class HmsHomework {
         return Objects.equals(id, that.id) &&
                 Objects.equals(title, that.title) &&
                 Objects.equals(description, that.description) &&
-                Objects.equals(content, that.content) &&
-                Objects.equals(created, that.created) &&
-                Objects.equals(ended, that.ended);
+                Objects.equals(content, that.content);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, content, created, ended);
+        return Objects.hash(id, title, description, content);
     }
 }

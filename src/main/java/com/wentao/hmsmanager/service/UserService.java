@@ -27,4 +27,13 @@ public class UserService implements UserDetailsService {
         // 如果用户存在，将查询到的用户封装到UserDetails中并返回，佛则返回null
         return one.map(HmsUserDetails::new).orElse(null);
     }
+
+    public HmsUser findById(Integer userId) {
+        HmsUser user = new HmsUser();
+        user.setId(userId);
+        Example<HmsUser> example = Example.of(user);
+        Optional<HmsUser> optionalHmsUser = userDao.findOne(example);
+        return optionalHmsUser.orElse(null);
+    }
+
 }

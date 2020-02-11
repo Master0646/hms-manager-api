@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "hms_course")
@@ -19,11 +20,18 @@ public class HmsCourse implements Serializable {
     private String name;
     @Column
     private String description;
-    @JsonBackReference
-    @ManyToMany(targetEntity = HmsClass.class)
+
+    @JsonBackReference("courseHomework")
+    @OneToMany(targetEntity = HmsHomework.class, fetch = FetchType.LAZY)
+    @JoinTable(name = "hms_course_homework", joinColumns = {@JoinColumn(name = "course_id")},
+            inverseJoinColumns = {@JoinColumn(name = "homework_id")})
+    private List<HmsHomework> homeworks;
+
+    @JsonBackReference("courseHomework")
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "hms_class_course", joinColumns = {@JoinColumn(name = "course_id")},
             inverseJoinColumns = {@JoinColumn(name = "class_id")})
-    private List<HmsClass> classes;
+    private Set<HmsClass> classes;
 
     public Integer getId() {
         return id;
@@ -49,11 +57,19 @@ public class HmsCourse implements Serializable {
         this.description = description;
     }
 
-    public List<HmsClass> getClasses() {
+    public List<HmsHomework> getHomeworks() {
+        return homeworks;
+    }
+
+    public void setHomeworks(List<HmsHomework> homeworks) {
+        this.homeworks = homeworks;
+    }
+
+    public Set<HmsClass> getClasses() {
         return classes;
     }
 
-    public void setClasses(List<HmsClass> classes) {
+    public void setClasses(Set<HmsClass> classes) {
         this.classes = classes;
     }
 

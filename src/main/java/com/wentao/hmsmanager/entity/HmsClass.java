@@ -18,17 +18,23 @@ public class HmsClass implements Serializable {
     @Column
     private String name;
 
-    @JsonBackReference("students")
+    @JsonBackReference("classStudent")
     @OneToMany(targetEntity = HmsUser.class)
     @JoinTable(name = "hms_user_class", joinColumns = {@JoinColumn(name = "class_id")},
             inverseJoinColumns = {@JoinColumn(name = "user_id")})
     private Set<HmsUser> students;
 
-    @JsonBackReference("courses")
-    @OneToMany(targetEntity = HmsCourse.class)
+    @JsonBackReference("classCourse")
+    @OneToMany
     @JoinTable(name = "hms_class_course", joinColumns = {@JoinColumn(name = "class_id")},
             inverseJoinColumns = {@JoinColumn(name = "course_id")})
     private Set<HmsCourse> courses;
+
+    @JsonBackReference("classHomework")
+    @OneToMany
+    @JoinTable(name = "hms_class_homework", joinColumns = {@JoinColumn(name = "class_id")},
+            inverseJoinColumns = {@JoinColumn(name = "homework_id")})
+    private Set<HmsHomework> homeworks;
 
     public Integer getId() {
         return id;
@@ -60,6 +66,14 @@ public class HmsClass implements Serializable {
 
     public void setStudents(Set<HmsUser> students) {
         this.students = students;
+    }
+
+    public Set<HmsHomework> getHomeworks() {
+        return homeworks;
+    }
+
+    public void setHomeworks(Set<HmsHomework> homeworks) {
+        this.homeworks = homeworks;
     }
 
     @Override

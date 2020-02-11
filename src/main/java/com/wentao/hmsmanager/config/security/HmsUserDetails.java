@@ -39,6 +39,10 @@ public class HmsUserDetails implements UserDetails {
         return currentUser.getUsername();
     }
 
+    public HmsUser getCurrentUser() {
+        return currentUser;
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;

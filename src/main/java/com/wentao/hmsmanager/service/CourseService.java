@@ -16,23 +16,12 @@ public class CourseService {
     @Autowired
     CourseDao courseDao;
 
-    @Autowired
-    ClassDao classDao;
-
-    /**
-     *  根据班级id查找课程列表
-     * @param id 班级编号
-     * @return 课程列表
-     */
-    public Set<HmsCourse> findAllByClassId(Integer id) {
-        HmsClass hmsClass = new HmsClass();
-        hmsClass.setId(id);
-        Example<HmsClass> example = Example.of(hmsClass);
-        Optional<HmsClass> one = classDao.findOne(example);
-        if(one.isPresent()) {
-            return one.get().getCourses();
-        }
-        return Collections.emptySet();
+    public HmsCourse findById(Integer courseId) {
+        HmsCourse course = new HmsCourse();
+        course.setId(courseId);
+        Example<HmsCourse> example = Example.of(course);
+        Optional<HmsCourse> optionalHmsCourse = courseDao.findOne(example);
+        return optionalHmsCourse.orElse(null);
     }
 
 }
