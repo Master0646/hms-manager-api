@@ -6,10 +6,13 @@ import com.wentao.hmsmanager.entity.HmsHomework;
 import com.wentao.hmsmanager.repository.HomeworkDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class HomeworkService {
@@ -40,6 +43,14 @@ public class HomeworkService {
             return homeworkDao.save(foundHomework);
         }
         return null;
+    }
+
+    public Page<HmsHomework> findAllByCourseAndClass(HmsClass hmsClass, HmsCourse course, Integer page, Integer size) {
+        HmsHomework homework = new HmsHomework();
+        homework.setCourses(course);
+        homework.setClasses(hmsClass);
+        Example<HmsHomework> example = Example.of(homework);
+        return homeworkDao.findAll(example, PageRequest.of(page, size));
     }
 
 }

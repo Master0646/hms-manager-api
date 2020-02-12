@@ -21,13 +21,12 @@ public class HmsCourse implements Serializable {
     @Column
     private String description;
 
-    @JsonBackReference("courseHomework")
     @OneToMany(targetEntity = HmsHomework.class, fetch = FetchType.LAZY)
     @JoinTable(name = "hms_course_homework", joinColumns = {@JoinColumn(name = "course_id")},
             inverseJoinColumns = {@JoinColumn(name = "homework_id")})
     private List<HmsHomework> homeworks;
 
-    @JsonBackReference("courseHomework")
+    @JsonBackReference("courseClass")
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "hms_class_course", joinColumns = {@JoinColumn(name = "course_id")},
             inverseJoinColumns = {@JoinColumn(name = "class_id")})

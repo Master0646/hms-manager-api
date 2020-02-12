@@ -28,7 +28,7 @@ public class HmsHomework {
             inverseJoinColumns = {@JoinColumn(name = "course_id")})
     private HmsCourse courses;
 
-    @JsonBackReference("homeworkCourse")
+    @JsonBackReference("homeworkClass")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinTable(name = "hms_class_homework", joinColumns = {@JoinColumn(name = "homework_id")},
             inverseJoinColumns = {@JoinColumn(name = "class_id")})
