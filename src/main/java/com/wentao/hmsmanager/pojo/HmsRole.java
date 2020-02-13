@@ -1,22 +1,12 @@
-package com.wentao.hmsmanager.entity;
+package com.wentao.hmsmanager.pojo;
 
-import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
 
-@Entity
-@Table(name = "hms_role")
 public class HmsRole {
-    @Id
-    @Column
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Integer id;
-    @Column
     private String name;
-    @OneToMany(targetEntity = HmsPermission.class)
-    @JoinTable(name = "hms_role_permission",
-            joinColumns = {@JoinColumn(name = "role_id")},
-            inverseJoinColumns = {@JoinColumn(name = "permission_id")})
     private Set<HmsPermission> permissions;
 
     public Integer getId() {

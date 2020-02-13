@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wentao.hmsmanager.mapper.UserMapper">
+
+    <resultMap id="UserBean" type="com.wentao.hmsmanager.pojo.HmsUser">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="name" property="name"/>
+        <result column="id_number" property="idNumber"/>
+        <result column="sex" property="sex"/>
+        <result column="phone" property="phone"/>
+        <result column="address" property="address"/>
+        <result column="email" property="email"/>
+        <association property="role" javaType="com.wentao.hmsmanager.pojo.HmsRole">
+            <id column="role_id" property="id" />
+            <result column="role_name" property="name"/>
+        </association>
+    </resultMap>
+
+    <select id="selectByUsername" resultMap="UserBean">
+        select hu.`id`,
+               hu.`username`,
+               hu.`password`,
+               hu.`name`,
+               hu.`id_number`,
+               hu.`sex`,
+               hu.`phone`,
+               hu.`address`,
+               hu.`email`,
+               hr.`id` as role_id,
+               hr.`name` as role_name
+        from hms_user hu,
+             hms_role hr
+        where hu.`role_id` = hr.`id`
+          and hu.`username` = #{username}
+    </select>
+
+</mapper>

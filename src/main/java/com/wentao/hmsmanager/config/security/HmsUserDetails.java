@@ -1,8 +1,7 @@
 package com.wentao.hmsmanager.config.security;
 
-import com.wentao.hmsmanager.entity.HmsPermission;
-import com.wentao.hmsmanager.entity.HmsRole;
-import com.wentao.hmsmanager.entity.HmsUser;
+import com.wentao.hmsmanager.pojo.HmsRole;
+import com.wentao.hmsmanager.pojo.HmsUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 public class HmsUserDetails implements UserDetails {
 

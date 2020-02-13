@@ -1,27 +1,16 @@
 package com.wentao.hmsmanager.service;
 
-import com.wentao.hmsmanager.entity.HmsClass;
-import com.wentao.hmsmanager.entity.HmsUser;
-import com.wentao.hmsmanager.repository.ClassDao;
-import com.wentao.hmsmanager.repository.UserDao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.wentao.hmsmanager.mapper.ClassMapper;
+import com.wentao.hmsmanager.pojo.HmsClass;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
 
 @Service
-public class ClassService {
+public class ClassService extends ServiceImpl<ClassMapper, HmsClass> {
 
-    @Autowired
-    private ClassDao classDao;
-
-    public HmsClass findById(Integer classId) {
-        HmsClass hmsClass = new HmsClass();
-        hmsClass.setId(classId);
-        Example<HmsClass> example = Example.of(hmsClass);
-        Optional<HmsClass> optionalHmsClass = classDao.findOne(example);
-        return optionalHmsClass.orElse(null);
+    public List<HmsClass> selectByUserId(Integer userId) {
+        return baseMapper.selectAllByUserId(userId);
     }
-
 }

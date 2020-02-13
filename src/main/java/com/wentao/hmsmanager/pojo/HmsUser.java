@@ -1,44 +1,19 @@
-package com.wentao.hmsmanager.entity;
+package com.wentao.hmsmanager.pojo;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
 
-@Entity
-@Table(name = "hms_user")
 public class HmsUser implements Serializable {
 
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column
     private String username;
-    @Column
     private String password;
-    @Column
     private String name;
-    @Column
     private String idNumber;
-    @Column
     private int sex;
-    @Column
     private String phone;
-    @Column
     private String address;
-    @Column
     private String email;
-    @JsonBackReference("hmsClass")
-    @ManyToMany(targetEntity = HmsClass.class)
-    @JoinTable(name = "hms_user_class", joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "class_id")})
-    private List<HmsClass> hmsClass;
-    @OneToOne
-    @JoinColumn(name = "role_id")
     private HmsRole role;
 
     public Integer getId() {
@@ -67,14 +42,6 @@ public class HmsUser implements Serializable {
 
     public String getName() {
         return name;
-    }
-
-    public List<HmsClass> getHmsClass() {
-        return hmsClass;
-    }
-
-    public void setHmsClass(List<HmsClass> hmsClass) {
-        this.hmsClass = hmsClass;
     }
 
     public void setName(String name) {

@@ -1,7 +1,7 @@
 package com.wentao.hmsmanager.entity.vo;
 
-import com.wentao.hmsmanager.entity.HmsHomework;
-import org.springframework.data.domain.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.wentao.hmsmanager.pojo.HmsHomework;
 
 public class CourseDetailVo {
 

@@ -1,39 +1,29 @@
 package com.wentao.hmsmanager.service;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wentao.hmsmanager.config.security.HmsUserDetails;
-import com.wentao.hmsmanager.entity.HmsUser;
-import com.wentao.hmsmanager.repository.UserDao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
+import com.wentao.hmsmanager.mapper.UserMapper;
+import com.wentao.hmsmanager.pojo.HmsUser;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
-public class UserService implements UserDetailsService {
+public class UserService extends ServiceImpl<UserMapper, HmsUser> implements UserDetailsService {
 
-    @Autowired
-    UserDao userDao;
+    public HmsUser findById(Integer userId) {
+        return baseMapper.selectById(userId);
+    }
+
+    public HmsUser selectOneByUsername(String username) {
+        return baseMapper.selectByUsername(username);
+    }
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        HmsUser hmsUser = new HmsUser();
-        hmsUser.setUsername(s);
-        Example<HmsUser> example = Example.of(hmsUser);
-        Optional<HmsUser> one = userDao.findOne(example);
-        // 如果用户存在，将查询到的用户封装到UserDetails中并返回，佛则返回null
-        return one.map(HmsUserDetails::new).orElse(null);
-    }
-
-    public HmsUser findById(Integer userId) {
-        HmsUser user = new HmsUser();
-        user.setId(userId);
-        Example<HmsUser> example = Example.of(user);
-        Optional<HmsUser> optionalHmsUser = userDao.findOne(example);
-        return optionalHmsUser.orElse(null);
+        HmsUser hmsUser = baseMapper.selectByUsername(s);
+        return new HmsUserDetails(hmsUser);
     }
 
 }

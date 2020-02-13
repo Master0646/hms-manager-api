@@ -1,6 +1,6 @@
 package com.wentao.hmsmanager.entity.vo;
 
-import com.wentao.hmsmanager.entity.HmsRole;
+import com.wentao.hmsmanager.pojo.HmsRole;
 
 public class HmsUserVo {
 

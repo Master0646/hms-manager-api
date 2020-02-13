@@ -1,19 +1,11 @@
-package com.wentao.hmsmanager.entity;
+package com.wentao.hmsmanager.pojo;
 
-import javax.persistence.*;
 import java.util.Objects;
 
-@Entity
-@Table(name = "hms_permission")
 public class HmsPermission {
 
-    @Id
-    @Column
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column
     private String name;
-    @Column
     private String route;
 
     public Integer getId() {

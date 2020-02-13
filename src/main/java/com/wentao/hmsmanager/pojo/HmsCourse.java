@@ -1,36 +1,16 @@
-package com.wentao.hmsmanager.entity;
+package com.wentao.hmsmanager.pojo;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
-@Entity
-@Table(name = "hms_course")
 public class HmsCourse implements Serializable {
 
-    @Id
-    @Column
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column
     private String name;
-    @Column
     private String description;
-
-    @OneToMany(targetEntity = HmsHomework.class, fetch = FetchType.LAZY)
-    @JoinTable(name = "hms_course_homework", joinColumns = {@JoinColumn(name = "course_id")},
-            inverseJoinColumns = {@JoinColumn(name = "homework_id")})
+    private HmsUser lecturer;
     private List<HmsHomework> homeworks;
-
-    @JsonBackReference("courseClass")
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "hms_class_course", joinColumns = {@JoinColumn(name = "course_id")},
-            inverseJoinColumns = {@JoinColumn(name = "class_id")})
-    private Set<HmsClass> classes;
 
     public Integer getId() {
         return id;
@@ -64,12 +44,12 @@ public class HmsCourse implements Serializable {
         this.homeworks = homeworks;
     }
 
-    public Set<HmsClass> getClasses() {
-        return classes;
+    public HmsUser getLecturer() {
+        return lecturer;
     }
 
-    public void setClasses(Set<HmsClass> classes) {
-        this.classes = classes;
+    public void setLecturer(HmsUser lecturer) {
+        this.lecturer = lecturer;
     }
 
     @Override

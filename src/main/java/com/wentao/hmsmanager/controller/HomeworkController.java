@@ -1,8 +1,7 @@
 package com.wentao.hmsmanager.controller;
 
-import com.wentao.hmsmanager.entity.HmsClass;
-import com.wentao.hmsmanager.entity.HmsCourse;
-import com.wentao.hmsmanager.entity.HmsHomework;
+import com.wentao.hmsmanager.pojo.HmsCourse;
+import com.wentao.hmsmanager.pojo.HmsHomework;
 import com.wentao.hmsmanager.service.ClassService;
 import com.wentao.hmsmanager.service.CourseService;
 import com.wentao.hmsmanager.service.HomeworkService;
@@ -33,7 +32,7 @@ public class HomeworkController {
 
     @GetMapping("/api/v1/homework/{id}")
     public ApiResponse info(@PathVariable Integer id) {
-        HmsCourse course = courseService.findById(id);
+        HmsCourse course = courseService.getById(id);
         List<HmsHomework> homeworks = course.getHomeworks();
         return ApiResponse.ok(homeworks);
     }
@@ -53,9 +52,9 @@ public class HomeworkController {
      */
     @PostMapping("/api/v1/homework/release")
     public ApiResponse release(@RequestBody Integer classId, Integer homeworkId) {
-        HmsClass hmsClass = classService.findById(classId);
-        homeworkService.save(hmsClass, homeworkId);
-        return ApiResponse.ok(hmsClass);
+        homeworkService.insertWithClassId(classId, homeworkId);
+        HmsHomework hmsHomework = homeworkService.getById(homeworkId);
+        return ApiResponse.ok(hmsHomework);
     }
 
     /**
@@ -77,7 +76,7 @@ public class HomeworkController {
         homework.setTitle(title);
         homework.setDescription(description);
 
-        HmsCourse course = courseService.findById(courseId);
+        HmsCourse course = courseService.getById(courseId);
 
 
         String fileName = String.format(pathPattern, courseId, title);
@@ -106,8 +105,9 @@ public class HomeworkController {
             }
         }
         homework.setContent(fileName);
-        HmsHomework save = homeworkService.save(course, homework);
-        return ApiResponse.ok(save);
+//        HmsHomework save = homeworkService.save(course, homework);
+//        return ApiResponse.ok(save);
+        return ApiResponse.ok();
     }
 
 }
